@@ -50,8 +50,7 @@ public class GridManager : MonoBehaviour
 
 
     #endregion
-
-
+    
     #region Instance
 
     public void CreateGrid()

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -33,13 +32,7 @@ public class SessionManager : MonoBehaviour
     {
         gridManager = FindObjectOfType<GridManager>();
     }
-
-    private void Update()
-    {
-        // debug
-        if (Input.GetKeyDown(KeyCode.F5))
-            SceneManager.LoadScene(0);
-    }
+  
 
     #endregion
 

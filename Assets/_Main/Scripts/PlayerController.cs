@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -14,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public bool pieceSelected;
     public bool dragging;
 
-    private GridPiece pieceUndo1, pieceUndo2;
+    private GridPiece[] pieceBuffer;
     private GridManager gridManager;
     private SessionManager sessionManager;
     private bool decidingResult;
@@ -27,6 +26,7 @@ public class PlayerController : MonoBehaviour
         gridManager = FindObjectOfType<GridManager>();
 
         sessionManager = FindObjectOfType<SessionManager>();
+        pieceBuffer = new GridPiece[2];
     }
 
     #endregion
@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
         {
             selectedPiece = piece;
             pieceSelected = true;
-            pieceUndo1 = piece;
+            pieceBuffer[0] = piece;
 
             selectedPiece.SelectedStatus(true);
             AudioManager.Play_Sound(0);
@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
         if (!piecesSwaping && !decidingResult && piece != selectedPiece)
         {
             targetPiece = piece;
-            pieceUndo2 = piece;
+            pieceBuffer[1] = piece;
 
             targetPiece.SelectedStatus(true);
             AudioManager.Play_Sound(0);
@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         {
             decidingResult = true;
             targetPiece = piece;
-            pieceUndo2 = piece;
+            pieceBuffer[1] = piece;
 
             if (!piecesSwaping)
             {
@@ -120,11 +120,11 @@ public class PlayerController : MonoBehaviour
         {
             if (!piecesSwaping)
             {
-                GridSpace parent1 = pieceUndo1.currentGridSpace;
-                GridSpace parent2 = pieceUndo2.currentGridSpace;
+                GridSpace parent1 = pieceBuffer[0].currentGridSpace;
+                GridSpace parent2 = pieceBuffer[1].currentGridSpace;
 
-                pieceUndo1.SwapTo(parent2);
-                pieceUndo2.SwapTo(parent1);
+                pieceBuffer[0].SwapTo(parent2);
+                pieceBuffer[1].SwapTo(parent1);
             }
 
             AudioManager.Play_Sound(1);
